@@ -21,14 +21,13 @@ namespace defer_detail {
     defer_impl(F&& func):func_{std::forward<F>(func)}{
     }
     ~defer_impl(){
-      if(!moved_)
-        func_();
+      if(!moved_) func_();
     }
-    void operator=(const defer_impl&)=delete;
-    void operator=(defer_impl&&)=delete;
+    void operator=(const defer_impl&) = delete;
+    void operator=(defer_impl&&) = delete;
   private:
     F func_;
-    mutable bool moved_{false};
+    bool moved_{false};
   };
   
   static struct defer_factory {
