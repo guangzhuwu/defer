@@ -1,5 +1,16 @@
+//
+// defer.h
+// ~~~~~~~
+//
+// GuangZhu Wu (GuangZhuWu@gmail.com)
+//
+// Distributed under the Boost Software License, Version 1.0. (See accompanying
+// file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
+//
 #ifndef __defer_h
 #define __defer_h
+
+#include <utility> //std::move
 
 namespace defer_detail {
   template<class F>
@@ -22,21 +33,21 @@ namespace defer_detail {
     mutable bool moved_{false};
   };
   
-  struct defer_factory {
+  static struct defer_factory {
     template<class F>
-    defer_impl<F> operator += (F&& func){
+    defer_impl<F> operator + (F&& func){
       return defer_impl<F>(std::move(func));
     }
-  };
+  }defer_factory;
 }
 
 
 #define __DEFER_CAT(a,b) a##b
 #define DEFER_CAT(a,b) __DEFER_CAT(a,b)
 #ifndef _MSC_VER
-# define defer auto DEFER_CAT(__defer_impl,__LINE__) = defer_detail::defer_factory() +=
+# define defer auto DEFER_CAT(__defer_impl,__LINE__) = defer_detail::defer_factory+
 #else
-# define defer auto DEFER_CAT(__defer_impl,__COUNTER__) = defer_detail::defer_factory() +=
+# define defer auto DEFER_CAT(__defer_impl,__COUNTER__) = defer_detail::defer_factory+
 #endif
 
 /*
