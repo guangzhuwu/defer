@@ -34,7 +34,7 @@ namespace defer_detail {
 #define __DEFER_CAT(a,b) a##b
 #define DEFER_CAT(a,b) __DEFER_CAT(a,b)
 #ifndef _MSC_VER
-# define defer auto DEFER_CAT(__defer_impl,__LINE__) = defer_detail::defer_factory()+=
+# define defer auto DEFER_CAT(__defer_impl,__LINE__) = defer_detail::defer_factory() +=
 #else
 # define defer auto DEFER_CAT(__defer_impl,__COUNTER__) = defer_detail::defer_factory() +=
 #endif
