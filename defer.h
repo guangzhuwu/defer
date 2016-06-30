@@ -15,17 +15,15 @@
 namespace defer_detail {
   template<class F>
   struct defer_impl {
-    defer_impl(defer_impl&& o):func_{std::move(o.func_)}{
+    defer_impl(defer_impl&& o):func_{std::forward<F>(o.func_)}{
       o.moved_=true;
     }
-    defer_impl(F&& func):func_{func}{
+    defer_impl(F&& func):func_{std::forward<F>(func)}{
     }
     ~defer_impl(){
       if(!moved_)
         func_();
     }
-    
-    defer_impl(const defer_impl&)=delete;
     void operator=(const defer_impl&)=delete;
     void operator=(defer_impl&&)=delete;
   private:
@@ -36,11 +34,10 @@ namespace defer_detail {
   static struct defer_factory {
     template<class F>
     defer_impl<F> operator + (F&& func){
-      return defer_impl<F>(std::move(func));
+      return defer_impl<F>(std::forward<F>(func));
     }
   }defer_factory;
 }
-
 
 #define __DEFER_CAT(a,b) a##b
 #define DEFER_CAT(a,b) __DEFER_CAT(a,b)
