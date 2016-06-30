@@ -32,7 +32,7 @@ namespace defer_detail {
   
   static struct defer_factory {
     template<class F>
-    defer_impl<F> operator + (F&& func){
+     typename std::enable_if_t<std::is_constructible<std::function<void()>,F>::value,defer_impl<F>> operator + (F&& func){
       return defer_impl<F>(std::forward<F>(func));
     }
   }defer_factory;
