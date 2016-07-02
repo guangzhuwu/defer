@@ -49,7 +49,7 @@ namespace defer_detail {
 /*
  void test()
  {
-    const size_t buf_len;
+    const size_t buf_len = 1;
     char* p=new char[buf_len];
     defer [=](){delete[] p;};
     memset(p,0,buf_len);
