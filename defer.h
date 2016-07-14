@@ -47,12 +47,16 @@ namespace defer_detail {
 #endif
 
 /*
+ void func(){}
  void test()
  {
     const size_t buf_len = 1;
     char* p=new char[buf_len];
     defer [=](){delete[] p;};
     memset(p,0,buf_len);
+    
+    defer std::bind(std::less<int>(),1,1);
+    defer func;
  }
 */
 
